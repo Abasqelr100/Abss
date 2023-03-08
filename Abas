@@ -1,0 +1,63 @@
+# Abss
+Abas
+#include <stdio.h>
+
+#include <curl/curl.h>
+
+int main(int argc, char *argv[]) {
+
+    CURL *curl;
+
+    FILE *fp;
+
+    char *url = "https://www.instagram.com/p/VIDEO_ID_HERE/";
+
+    char filename[FILENAME_MAX];
+
+    // Replace "VIDEO_ID_HERE" with the Instagram video ID
+
+    // For example: https://www.instagram.com/p/CW5V8IvJmr9/
+
+    // The video ID is "CW5V8IvJmr9"
+
+    // Construct the filename
+
+    snprintf(filename, FILENAME_MAX, "%s.mp4", argv[1]);
+
+    // Initialize curl
+
+    curl = curl_easy_init();
+
+    if (curl) {
+
+        // Set the URL to download
+
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+
+        // Follow redirects
+
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+        // Set up the output file
+
+        fp = fopen(filename, "wb");
+
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+
+        // Perform the request
+
+        curl_easy_perform(curl);
+
+        // Clean up
+
+        curl_easy_cleanup(curl);
+
+        fclose(fp);
+
+    }
+
+    return 0;
+
+}
+
+
